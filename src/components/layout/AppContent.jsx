@@ -1,4 +1,5 @@
 import { Layout } from 'antd';
+import { fetchStock } from '../../api';
 
 const contentStyle = {
   textAlign: 'center',
@@ -9,5 +10,9 @@ const contentStyle = {
 };
 
 export const AppContent = () => {
-  return <Layout.Content style={contentStyle}>Content</Layout.Content>
+  fetchStock();
+
+  return (
+    <Layout.Content style={contentStyle}>Content</Layout.Content>
+  )
 }
