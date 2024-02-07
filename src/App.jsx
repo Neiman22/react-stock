@@ -2,15 +2,18 @@ import { Layout } from 'antd';
 import { AppHeader } from './components/layout/AppHeader';
 import { AppSider } from './components/layout/AppSider';
 import { AppContent } from './components/layout/AppContent';
+import { StockContextProvider } from './context/stock-context';
 
 export default function App() {
   return (
-    <Layout>
-      <AppHeader />
+    <StockContextProvider>
       <Layout>
-        <AppSider />
-        <AppContent />
+        <AppHeader />
+        <Layout>
+          <AppSider />
+          <AppContent />
+        </Layout>
       </Layout>
-    </Layout>
+    </StockContextProvider>
   )
 }

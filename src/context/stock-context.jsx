@@ -1,0 +1,44 @@
+import { createContext, useState, useEffect } from "react";
+import { fetchAssets, fetchStock } from "../api";
+import { percentDifference } from "../utils/utils";
+
+const StockContext = createContext({
+  assets: [],
+  stocks: [],
+  loading: false,
+})
+
+export const StockContextProvider = ({ children }) => {
+  const [loading, setLoading] = useState(false);
+  const [stocks, setStocks]= useState([]);
+  const [assets, setAssets]= useState([]);
+
+  useEffect(() => {
+    const preload = async () => {
+      setLoading(true);
+      const { data } = await fetchStock();
+      const assets = await fetchAssets();
+
+      setStocks(data);
+      setAssets(assets.map(asset => {
+        const stock = data.find(st => st[0] === asset.id);
+        return {
+          grow: asset.price < stock[3],
+          growPercent: percentDifference(asset.price, stock[3]),
+          totalAmount: asset.amount * stock[3],
+          totalProfit: asset.amount * (stock[3] - asset.price),
+          ...asset
+        }
+      }));
+      setLoading(false);
+    }
+    preload();
+  }, []);
+
+  return (
+    <StockContext.Provider value={{ assets, stocks, loading }}>
+      {children}
+    </StockContext.Provider>)
+}
+
+export default StockContext
