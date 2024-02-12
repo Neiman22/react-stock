@@ -1,4 +1,4 @@
-import { Layout, Card, Statistic, List, Spin, Tag } from 'antd';
+import { Layout, Card, Statistic, List, Tag } from 'antd';
 import { ArrowDownOutlined, ArrowUpOutlined } from '@ant-design/icons';
 import { useContext } from 'react';
 import StockContext from '../../context/stock-context';
@@ -8,11 +8,7 @@ const siderStyle = {
 };
 
 export const AppSider = () => {
-  const {loading, assets, stocks} = useContext(StockContext);
-
-  if (loading) {
-    return <Spin fullscreen />
-  }
+  const {assets} = useContext(StockContext);
 
   return (
     <Layout.Sider width="25%" style={siderStyle}>
@@ -30,6 +26,7 @@ export const AppSider = () => {
           size="small"
           dataSource={[
             {title: 'Количество', value: asset.amount.toLocaleString(), units: 'шт.'},
+            {title: 'Цена', value: asset.currentPrice.toLocaleString(), units: '₽'},
             {title: 'Стоимость активов', value: asset.totalAmount.toLocaleString(), units: '₽'},
             {title: asset.grow ? 'Прибыль' : 'Убыток', value: asset.growPercent, units: '%', withTag: true},
           ]}

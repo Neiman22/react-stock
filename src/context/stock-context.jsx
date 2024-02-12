@@ -1,4 +1,4 @@
-import { createContext, useState, useEffect } from "react";
+import { createContext, useState, useEffect, useContext } from "react";
 import { fetchAssets, fetchStock } from "../api";
 import { percentDifference } from "../utils/utils";
 
@@ -24,6 +24,7 @@ export const StockContextProvider = ({ children }) => {
         const stock = data.find(st => st[0] === asset.id);
         return {
           grow: asset.price < stock[3],
+          currentPrice: stock[3],
           growPercent: percentDifference(asset.price, stock[3]),
           totalAmount: asset.amount * stock[3],
           totalProfit: asset.amount * (stock[3] - asset.price),
@@ -41,4 +42,8 @@ export const StockContextProvider = ({ children }) => {
     </StockContext.Provider>)
 }
 
-export default StockContext
+export default StockContext;
+
+export const useStock = () => {
+  return useContext(StockContext);
+}

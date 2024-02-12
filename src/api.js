@@ -15,6 +15,6 @@ export const fetchAssets = () => {
   return new Promise((resolve) => {
     setTimeout(() => {
       resolve(stockAssets);
-    }, 1000)
+    }, 1)
   })
 }
