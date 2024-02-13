@@ -1,6 +1,8 @@
-import { Layout, Select, Space, Button } from 'antd';
+import { Layout, Select, Space, Button, Modal, Drawer } from 'antd';
 import { useStock } from '../../context/stock-context';
 import { useEffect, useState } from 'react';
+import { StockModal } from '../StockModal';
+import { AddStockForm } from '../AddStockForm';
 
 const headerStyle = {
   width: '100%',
@@ -14,6 +16,9 @@ const headerStyle = {
 
 export const AppHeader = () => {
   const [select, setSelect] = useState(false);
+  const [stock, setStock] = useState(null);
+  const [modal, setModal] = useState(false);
+  const [drawer, setDrawer] = useState(false);
   const { stocks } = useStock();
 
   useEffect(() => {
@@ -28,6 +33,8 @@ export const AppHeader = () => {
 
   const handleSelect = (value) => {
     console.log(value);
+    setStock(stocks.find(s => s[0] === value));
+    setModal(true);
   }
 
   return (<Layout.Header style={headerStyle}>
@@ -48,6 +55,20 @@ export const AppHeader = () => {
         </Space>
       )}
     />
-  <Button type="primary">Add Stock</Button>
+  <Button type="primary" onClick={() => setDrawer(true)}>Add Stock</Button>
+
+  <Modal
+    open={modal} 
+    onOk={() => setModal(false)} 
+    onCancel={() => setModal(false)}
+    footer={null}
+  >
+    <StockModal stock={stock}/>
+  </Modal>
+
+  <Drawer width={600} title="Add Stock" onClose={() => setDrawer(false)} open={drawer}>
+    <AddStockForm />
+  </Drawer>
+
   </Layout.Header>)
 }
