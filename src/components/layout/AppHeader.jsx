@@ -66,7 +66,7 @@ export const AppHeader = () => {
     <StockModal stock={stock}/>
   </Modal>
 
-  <Drawer width={600} title="Add Stock" onClose={() => setDrawer(false)} open={drawer}>
+  <Drawer width={600} title="Add Stock" onClose={() => setDrawer(false)} open={drawer} destroyOnClose>
     <AddStockForm />
   </Drawer>
 

@@ -25,7 +25,7 @@ export const AppSider = () => {
         <List
           size="small"
           dataSource={[
-            {title: 'Количество', value: asset.amount.toLocaleString(), units: 'шт.'},
+            {title: 'Количество', value: asset.amount.to, units: 'шт.'},
             {title: 'Цена', value: asset.currentPrice.toLocaleString(), units: '₽'},
             {title: 'Стоимость активов', value: asset.totalAmount.toLocaleString(), units: '₽'},
             {title: asset.grow ? 'Прибыль' : 'Убыток', value: asset.growPercent, units: '%', withTag: true},
