@@ -1,21 +1,24 @@
-import { useState } from "react"
-import { Divider, Select, Space, Typography, Form, Button, InputNumber, DatePicker } from "antd";
+import { useRef, useState } from "react"
+import { Divider, Select, Space, Form, Button, InputNumber, DatePicker, Result } from "antd";
 import { useStock } from "../context/stock-context";
+import { StockInfo } from "./StockInfo";
 
-export const AddStockForm = () => {
+const validateMessages = {
+  required: '${label} is required!',
+  types: {
+    number: '${label} in not valid number',
+  },
+  number: {
+    range: '${label} must be between ${min} and ${max}',
+  },
+};
+
+export const AddStockForm = ({ onClose }) => {
   const [form] = Form.useForm();
+  const { stocks, addStock } = useStock();
   const [stock, setStock] = useState(null);
-  const { stocks } = useStock();
-
-  const validateMessages = {
-    required: "${label} is required!",
-    types: {
-      number: "${label} is not valid number"
-    },
-    number: {
-      range: "${label} must be between ${min} and ${max}"
-    }
-  };
+  const [submitted, setSubmitted] = useState(false);
+  const stockRef = useRef();
 
   const handleAmountChange = (value) => {
     const price = form.getFieldValue('price');
@@ -52,7 +55,31 @@ export const AddStockForm = () => {
   }
 
   const onFinish = (values) => {
-    console.log('finish: ', values)
+    const newStock = {
+      id: stock[0],
+      amount: values.amount,
+      price: values.price,
+      date: values.date?.$d ?? new Date(),
+    }
+    console.log(newStock);
+    stockRef.current = newStock;
+    setSubmitted(true);
+    addStock(newStock);
+  }
+
+  if (submitted) {
+    return (
+      <Result
+        status="success"
+        title="New Stock Added"
+        subTitle={`Added ${stockRef.current.amount} of ${stock[0]} by price ${stockRef.current.price}`}
+        extra={[
+          <Button type="primary" key="console" onClick={onClose}>
+            Close
+          </Button>,
+        ]}
+      />
+    )
   }
 
   return (
@@ -75,7 +102,7 @@ export const AddStockForm = () => {
       validateMessages={validateMessages}
     >
 
-    <Typography.Title level={2} style={{ margin: 0 }}>{stock[0]}</Typography.Title>
+    <StockInfo stock={stock} />
     <Divider />
 
     <Form.Item
@@ -113,6 +140,6 @@ export const AddStockForm = () => {
         Add Stock
       </Button>
     </Form.Item>
-    </Form>
+    </Form>    
   )
 }
