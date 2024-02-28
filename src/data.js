@@ -6,12 +6,6 @@ export const stockAssets = [
     date: new Date(),
   },
   {
-    id: 'AFKS',
-    amount: 10,
-    price: 10,
-    date: new Date(),
-  },
-  {
     id: 'ROSN',
     amount: 500,
     price: 600,

@@ -61,7 +61,6 @@ export const AddStockForm = ({ onClose }) => {
       price: values.price,
       date: values.date?.$d ?? new Date(),
     }
-    console.log(newStock);
     stockRef.current = newStock;
     setSubmitted(true);
     addStock(newStock);

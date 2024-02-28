@@ -32,7 +32,6 @@ export const AppHeader = () => {
   }, [])
 
   const handleSelect = (value) => {
-    console.log(value);
     setStock(stocks.find(s => s[0] === value));
     setModal(true);
   }

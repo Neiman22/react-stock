@@ -1,6 +1,5 @@
 import { Divider, Flex, Tag, Typography } from "antd";
 export const StockModal = ({ stock }) => {
-  console.log(stock);
   const changePrice = (stock[3] - stock[15]) / stock[15];
   return (
     <>
