@@ -22,6 +22,7 @@ export const StockContextProvider = ({ children }) => {
         growPercent: percentDifference(asset.price, stock[3]),
         totalAmount: asset.amount * stock[3],
         totalProfit: asset.amount * (stock[3] - asset.price),
+        name: stock[0],
         ...asset
       }
     })
